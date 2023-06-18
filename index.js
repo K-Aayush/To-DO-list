@@ -1,4 +1,4 @@
-function update() {
+function getAndUpdate() {
     tit = document.getElementById('title').value;
     desc = document.getElementById('description').value;
     if (localStorage.getItem('itemJson') == null) {
@@ -12,6 +12,17 @@ function update() {
         itemJsonArray.push([tit, desc]);
         localStorage.setItem('itemJson', JSON.stringify(itemJsonArray));
     }
+    update();
+}
+function update() {
+    if (localStorage.getItem('itemJson') == null) {
+        itemJsonArray = [];
+        localStorage.setItem('itemJson', JSON.stringify(itemJsonArray));
+    }
+    else {
+        itemJsonArrayStr = localStorage.getItem('itemJson');
+        itemJsonArray = JSON.parse(itemJsonArrayStr);
+    }
 
     //updating table
     tableBody = document.getElementById("tableBody");
@@ -22,11 +33,19 @@ function update() {
                 <th scope="row">${index + 1}</th>
                 <td>${element[0]}</td>
                 <td>${element[1]}</td>
-                <td><button class="btn btn-sm btn-primary">Delete</button></td>
+                <td><button class="btn btn-sm btn-primary" onClick="deleted(${index})">Delete</button></td>
             </tr>`;
     });
     tableBody.innerHTML = str;
 } 
 add = document.getElementById("add");
-add.addEventListener("click", update);
+add.addEventListener("click", getAndUpdate);
 update();
+
+function deleted(itemIndex){
+    itemJsonArrayStr = localStorage.getItem('itemJson');
+    itemJsonArray = JSON.parse(itemJsonArrayStr);
+    itemJsonArray.splice(itemIndex, 1);
+    localStorage.setItem('itemJson', JSON.stringify(itemJsonArray));
+    update();
+}
