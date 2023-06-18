@@ -30,10 +30,10 @@ function update() {
     itemJsonArray.forEach((element, index) => {
         str +=`
             <tr>
-                <th scope="row">${index + 1}</th>
+                <td scope="row">${index + 1}</td>
                 <td>${element[0]}</td>
                 <td>${element[1]}</td>
-                <td><button class="btn btn-sm btn-primary" onClick="deleted(${index})">Delete</button></td>
+                <td><button class="dlt-btn" onClick="deleted(${index})">Delete</button></td>
             </tr>`;
     });
     tableBody.innerHTML = str;
